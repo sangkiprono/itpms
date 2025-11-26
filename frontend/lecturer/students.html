@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management - Teaching Practice System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f8;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .content-wrapper {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        .btn-custom {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #2980b9;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+            .content-wrapper {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+        <div class="text-center mb-4">
+            <h4 class="text-white">TPMS</h4>
+        </div>
+        <nav>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="dashboard.html">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="students.html">
+                        <i class="bi bi-people me-2"></i> My Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="evaluations.html">
+                        <i class="bi bi-clipboard-check me-2"></i> Evaluations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="reports.html">
+                        <i class="bi bi-file-text me-2"></i> Student Reports
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="row mb-4 align-items-center">
+                <div class="col">
+                    <h1 class="h3 mb-0">My Students</h1>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                        <i class="bi bi-plus-circle me-2"></i>Add Student
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" id="searchStudent" class="form-control" placeholder="Search students...">
+                        <button class="btn btn-outline-secondary" type="button" title="Search">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="schoolFilter" class="form-label visually-hidden">Filter by School</label>
+                    <select id="schoolFilter" class="form-select" aria-label="Filter by School">
+                        <option value="">All Schools</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select id="statusFilter" class="form-select" title="Filter by Status">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Students Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="studentsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>School</th>
+                                    <th>Placement Period</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody">
+                                <!-- Students will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal fade" id="addStudentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addStudentForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Enter first name" title="First Name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Enter last name" title="Last Name" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" title="Email Address" placeholder="Enter email address" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phoneNumber" title="Phone Number" placeholder="Enter phone number">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">School</label>
+                                <select class="form-select" id="school" title="Select School" required>
+                                    <option value="">Select School</option>
+                                    <!-- Dynamically populated -->
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Department</label>
+                                <input type="text" class="form-control" id="department" title="Department" placeholder="Enter department">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Placement Start Date</label>
+                                <input type="date" class="form-control" id="placementStart" title="Placement Start Date" placeholder="Select start date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Placement End Date</label>
+                                <input type="date" class="form-control" id="placementEnd" title="Placement End Date" placeholder="Select end date" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Additional Notes</label>
+                            <textarea class="form-control" id="notes" rows="3" title="Additional Notes" placeholder="Enter additional notes here"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-custom" id="saveStudentBtn">Save Student</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Details Modal -->
+    <div class="modal fade" id="studentDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Student Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body" id="studentDetailsContent">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-custom" id="editStudentBtn">Edit Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const studentsTableBody = document.getElementById('studentsTableBody');
+            const addStudentForm = document.getElementById('addStudentForm');
+            const saveStudentBtn = document.getElementById('saveStudentBtn');
+            const searchInput = document.getElementById('searchStudent');
+            const schoolFilter = document.getElementById('schoolFilter');
+            const statusFilter = document.getElementById('statusFilter');
+
+            // Mock data (would be replaced by backend API)
+            let students = [
+                {
+                    id: 1,
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    email: 'john.doe@example.com',
+                    phone: '123-456-7890',
+                    school: 'Central High School',
+                    department: 'Education',
+                    placementStart: '2024-01-15',
+                    placementEnd: '2024-06-15',
+                    status: 'active',
+                    notes: 'Strong interest in mathematics education'
+                },
+                {
+                    id: 2,
+                    firstName: 'Jane',
+                    lastName: 'Smith',
+                    email: 'jane.smith@example.com',
+                    phone: '987-654-3210',
+                    school: 'Westside Elementary',
+                    department: 'Primary Education',
+                    placementStart: '2024-02-01',
+                    placementEnd: '2024-07-01',
+                    status: 'pending',
+                    notes: 'Excellent communication skills'
+                }
+            ];
+
+            // Populate schools dropdown
+            const schools = ['Central High School', 'Westside Elementary', 'North Valley Middle School'];
+            const schoolDropdowns = [
+                document.getElementById('school'),
+                document.getElementById('schoolFilter')
+            ];
+
+            schoolDropdowns.forEach(dropdown => {
+                dropdown.innerHTML = dropdown === schoolFilter 
+                    ? '<option value="">All Schools</option>'
+                    : '<option value="">Select School</option>';
+                
+                schools.forEach(school => {
+                    const option = document.createElement('option');
+                    option.value = school;
+                    option.textContent = school;
+                    dropdown.appendChild(option);
+                });
+            });
+
+            // Render students table
+            function renderStudents(filteredStudents = students) {
+                studentsTableBody.innerHTML = '';
+                filteredStudents.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${student.firstName} ${student.lastName}</td>
+                        <td>${student.email}</td>
+                        <td>${student.school}</td>
+                        <td>${student.placementStart} to ${student.placementEnd}</td>
+                        <td>
+                            <span class="badge ${getStatusBadgeClass(student.status)}">
+                                ${student.status.charAt(0).toUpperCase() + student.status.slice(1)}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info me-1" onclick="viewStudentDetails(${student.id})">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editStudent(${student.id})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    `;
+                    studentsTableBody.appendChild(row);
+                });
+            }
+
+            // Get status badge class
+            function getStatusBadgeClass(status) {
+                const statusClasses = {
+                    'active': 'bg-success',
+                    'pending': 'bg-warning',
+                    'completed': 'bg-info'
+                };
+                return statusClasses[status] || 'bg-secondary';
+            }
+
+            // View student details
+            window.viewStudentDetails = function(studentId) {
+                const student = students.find(s => s.id === studentId);
+                if (student) {
+                    const detailsContent = document.getElementById('studentDetailsContent');
+                    detailsContent.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Personal Information</h5>
+                                <p><strong>Name:</strong> ${student.firstName} ${student.lastName}</p>
+                                <p><strong>Email:</strong> ${student.email}</p>
+                                <p><strong>Phone:</strong> ${student.phone || 'N/A'}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Academic Details</h5>
+                                <p><strong>School:</strong> ${student.school}</p>
+                                <p><strong>Department:</strong> ${student.department || 'N/A'}</p>
+                                <p><strong>Placement Period:</strong> ${student.placementStart} to ${student.placementEnd}</p>
+                                <p><strong>Status:</strong> 
+                                    <span class="badge ${getStatusBadgeClass(student.status)}">
+                                        ${student.status.charAt(0).toUpperCase() + student.status.slice(1)}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5>Additional Notes</h5>
+                        <p>${student.notes || 'No additional notes'}</p>
+                        `;
+
+                    // Show student details modal
+                    const studentDetailsModal = new bootstrap.Modal(document.getElementById('studentDetailsModal'));
+                    studentDetailsModal.show();
+                }
+            };
+
+            // Edit student 
+            window.editStudent = function(studentId) {
+                const student = students.find(s => s.id === studentId);
+                if (student) {
+                    // Populate add student modal with existing data
+                    document.getElementById('firstName').value = student.firstName;
+                    document.getElementById('lastName').value = student.lastName;
+                    document.getElementById('email').value = student.email;
+                    document.getElementById('phoneNumber').value = student.phone || '';
+                    document.getElementById('school').value = student.school;
+                    document.getElementById('department').value = student.department || '';
+                    document.getElementById('placementStart').value = student.placementStart;
+                    document.getElementById('placementEnd').value = student.placementEnd;
+                    document.getElementById('notes').value = student.notes || '';
+
+                    // Change modal title and button
+                    const modalTitle = document.querySelector('#addStudentModal .modal-title');
+                    modalTitle.textContent = 'Edit Student';
+
+                    // Show the modal
+                    const addStudentModal = new bootstrap.Modal(document.getElementById('addStudentModal'));
+                    addStudentModal.show();
+
+                    // Temporarily store the student ID for update
+                    saveStudentBtn.dataset.studentId = studentId;
+                }
+            };
+
+            // Save student (add or update)
+            saveStudentBtn.addEventListener('click', function() {
+                // Validate form
+                const form = document.getElementById('addStudentForm');
+                if (!form.checkValidity()) {
+                    form.classList.add('was-validated');
+                    return;
+                }
+
+                // Collect form data
+                const studentData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phoneNumber').value,
+                    school: document.getElementById('school').value,
+                    department: document.getElementById('department').value,
+                    placementStart: document.getElementById('placementStart').value,
+                    placementEnd: document.getElementById('placementEnd').value,
+                    notes: document.getElementById('notes').value,
+                    status: 'active' // Default status
+                };
+
+                // Check if editing existing student or adding new
+                const studentId = this.dataset.studentId;
+                if (studentId) {
+                    // Update existing student
+                    const index = students.findIndex(s => s.id === parseInt(studentId));
+                    if (index !== -1) {
+                        students[index] = { ...students[index], ...studentData };
+                    }
+                } else {
+                    // Add new student
+                    studentData.id = Date.now(); // Temporary ID generation
+                    students.push(studentData);
+                }
+
+                // Render updated students list
+                renderStudents();
+
+                // Close modal
+                const addStudentModal = bootstrap.Modal.getInstance(document.getElementById('addStudentModal'));
+                addStudentModal.hide();
+
+                // Reset form and modal
+                form.reset();
+                document.querySelector('#addStudentModal .modal-title').textContent = 'Add New Student';
+                delete this.dataset.studentId;
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredStudents = students.filter(student => 
+                    student.firstName.toLowerCase().includes(searchTerm) ||
+                    student.lastName.toLowerCase().includes(searchTerm) ||
+                    student.email.toLowerCase().includes(searchTerm)
+                );
+                renderStudents(filteredStudents);
+            });
+
+            // School filter
+            schoolFilter.addEventListener('change', function() {
+                const selectedSchool = this.value;
+                const filteredStudents = selectedSchool 
+                    ? students.filter(student => student.school === selectedSchool)
+                    : students;
+                renderStudents(filteredStudents);
+            });
+
+            // Status filter
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value;
+                const filteredStudents = selectedStatus 
+                    ? students.filter(student => student.status === selectedStatus)
+                    : students;
+                renderStudents(filteredStudents);
+            });
+
+            // Initial render
+            renderStudents();
+        });
+    </script>
+</body>
+</html>

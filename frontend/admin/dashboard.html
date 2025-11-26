@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Teaching Practice Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="navbar-brand d-flex align-items-center justify-content-center">
+                <i class="bi bi-book me-2"></i>
+                <span>TPMS Admin</span>
+            </div>
+            
+            <div class="sidebar-heading">
+                Main
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="dashboard.html">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-users.html">
+                        <i class="bi bi-people"></i> Manage Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="manage-schools.html">
+                        <i class="bi bi-building"></i> Manage Schools
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="assignments.html">
+                        <i class="bi bi-person-check"></i> Assignments
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-heading">
+                Reports
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="reports.html">
+                        <i class="bi bi-file-earmark-text"></i> View Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="evaluations.html">
+                        <i class="bi bi-clipboard-check"></i> Evaluations
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-heading">
+                System
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">
+                        <i class="bi bi-gear"></i> Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+                <div class="container-fluid">
+                    <button class="btn btn-sm btn-outline-secondary d-lg-none me-3" type="button" id="sidebarToggle" title="Toggle Sidebar">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    
+                    <h4 class="mb-0">Dashboard</h4>
+                    
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle text-decoration-none text-dark d-flex align-items-center" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="me-2" id="userName">Admin User</span>
+                                <div class="user-dropdown">
+                                    <img src="../assets/images/avatar-placeholder.jpg" alt="User" id="userImage">
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutDropdownBtn"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Alert Container -->
+            <div id="alertContainer"></div>
+            
+            <!-- Dashboard Content -->
+            <div class="container-fluid">
+                <!-- Stats Cards -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="dashboard-card bg-gradient-primary">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="card-title text-white">Total Users</div>
+                                    <div class="card-value text-white" id="totalUsersCount">0</div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="bi bi-people-fill text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="dashboard-card bg-gradient-success">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="card-title text-white">Total Schools</div>
+                                    <div class="card-value text-white" id="totalSchoolsCount">0</div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="bi bi-building text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="dashboard-card bg-gradient-info">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="card-title text-white">Active Sessions</div>
+                                    <div class="card-value text-white" id="activeSessionsCount">0</div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="bi bi-calendar-check text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="dashboard-card bg-gradient-warning">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="card-title text-white">New Reports</div>
+                                    <div class="card-value text-white" id="newReportsCount">0</div>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="bi bi-file-earmark-text text-white-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- User Stats -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <h5 class="mb-3">Users by Role</h5>
+                            <canvas id="userRolesChart" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="dashboard-card">
+                            <h5 class="mb-3">Recent Activities</h5>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">New lecturer assigned</h6>
+                                        <small>3 hours ago</small>
+                                    </div>
+                                    <p class="mb-1">Dr. Smith was assigned to 5 new students.</p>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">New school added</h6>
+                                        <small>6 hours ago</small>
+                                    </div>
+                                    <p class="mb-1">Jefferson High School was added to the system.</p>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">New teaching practice session</h6>
+                                        <small>Yesterday</small>
+                                    </div>
+                                    <p class="mb-1">Spring 2025 teaching practice session was created.</p>
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">10 new students registered</h6>
+                                        <small>2 days ago</small>
+                                    </div>
+                                    <p class="mb-1">10 new student accounts were created.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Users -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="dashboard-card">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Recent Users</h5>
+                                <a href="manage-users.html" class="btn btn-sm btn-primary">View All</a>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-hover data-table" id="recentUsersTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Created</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Dynamic content here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch dashboard data
+            fetchDashboardData();
+            
+            // Initialize charts
+            initializeCharts();
+            
+            // Fetch recent users
+            fetchRecentUsers();
+            
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    document.querySelector('.sidebar').classList.toggle('d-none');
+                });
+            }
+            
+            // Ensure logout button in dropdown works
+            const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+            if (logoutDropdownBtn) {
+                logoutDropdownBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logout();
+                });
+            }
+        });
+        
+        /**
+         * Fetch dashboard data from API
+         */
+        function fetchDashboardData() {
+            apiCall('/admin/dashboard')
+                .then(data => {
+                    // Update stats cards
+                    document.getElementById('totalUsersCount').textContent = 
+                        data.user_counts.admin + data.user_counts.lecturer + data.user_counts.student;
+                    document.getElementById('totalSchoolsCount').textContent = data.school_count;
+                    document.getElementById('activeSessionsCount').textContent = data.active_sessions;
+                    
+                    // Update user roles chart data
+                    updateUserRolesChart(data.user_counts);
+                })
+                .catch(error => {
+                    console.error('Error fetching dashboard data:', error);
+                    showAlert('Failed to load dashboard data. Please try again later.', 'danger');
+                });
+        }
+        
+        /**
+         * Fetch recent users
+         */
+        function fetchRecentUsers() {
+            apiCall('/admin/users?limit=5')
+                .then(data => {
+                    const users = data.users || [];
+                    
+                    // Define columns for the table
+                    const columns = [
+                        { 
+                            title: 'Name',
+                            render: user => `${user.first_name} ${user.last_name}`
+                        },
+                        {
+                            title: 'Username',
+                            property: 'username'
+                        },
+                        {
+                            title: 'Email',
+                            property: 'email'
+                        },
+                        {
+                            title: 'Role',
+                            render: user => `<span class="badge bg-${getRoleBadgeColor(user.role)}">${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</span>`
+                        },
+                        {
+                            title: 'Status',
+                            render: user => user.is_active 
+                                ? '<span class="badge bg-success">Active</span>' 
+                                : '<span class="badge bg-danger">Inactive</span>'
+                        },
+                        {
+                            title: 'Created',
+                            render: user => formatDate(user.created_at)
+                        },
+                        {
+                            title: 'Actions',
+                            render: user => `
+                                <div class="action-buttons">
+                                    <a href="edit-user.html?id=${user.id}" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.id})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            `
+                        }
+                    ];
+                    
+                    // Create the table
+                    createDataTable(users, columns, 'recentUsersTable');
+                })
+                .catch(error => {
+                    console.error('Error fetching recent users:', error);
+                    document.querySelector('#recentUsersTable tbody').innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center">Failed to load user data. Please try again later.</td>
+                        </tr>
+                    `;
+                });
+        }
+        
+        /**
+         * Initialize charts
+         */
+        function initializeCharts() {
+            // User roles chart (initialized with empty data, will be updated)
+            const userRolesCtx = document.getElementById('userRolesChart').getContext('2d');
+            window.userRolesChart = new Chart(userRolesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Admin', 'Lecturer', 'Student'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: ['#2c3e50', '#3498db', '#e74c3c'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        
+        /**
+         * Update user roles chart with new data
+         */
+        function updateUserRolesChart(userCounts) {
+            if (window.userRolesChart) {
+                window.userRolesChart.data.datasets[0].data = [
+                    userCounts.admin, 
+                    userCounts.lecturer, 
+                    userCounts.student
+                ];
+                window.userRolesChart.update();
+            }
+        }
+        
+        /**
+         * Get badge color based on user role
+         */
+        function getRoleBadgeColor(role) {
+            switch (role) {
+                case 'admin':
+                    return 'secondary';
+                case 'lecturer':
+                    return 'primary';
+                case 'student':
+                    return 'danger';
+                default:
+                    return 'info';
+            }
+        }
+        
+        /**
+         * Delete a user (placeholder function)
+         */
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to deactivate this user?')) {
+                apiCall(`/admin/users/${userId}`, 'DELETE')
+                    .then(response => {
+                        showAlert('User deactivated successfully', 'success');
+                        fetchRecentUsers(); // Refresh the table
+                    })
+                    .catch(error => {
+                        console.error('Error deactivating user:', error);
+                        showAlert('Failed to deactivate user. Please try again.', 'danger');
+                    });
+            }
+        }

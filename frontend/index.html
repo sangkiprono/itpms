@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching Practice Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="landing-container">
+        <header class="header">
+            <nav class="basic-navbar">
+                <a href="#" class="basic-navbar-brand">Teaching Practice Management System</a>
+                <ul class="basic-navbar-nav">
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1>Welcome to Teaching Practice Management System</h1>
+                            <p class="lead">A comprehensive platform for managing and evaluating teaching practice experiences.</p>
+                            <div class="hero-cta">
+                                <a href="login.html" class="btn-primary">Get Started</a>
+                            </div>
+                        </div>
+                        <div class="hero-image">
+                            <img src="C:\Users\HP\Desktop\416 project\itpms\frontend\assets\images\herro-image.jpg" alt="Teaching Practice">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="section">
+                <div class="container">
+                    <h2 class="section-title">About the System</h2>
+                    <div class="card-grid">
+                        <div class="feature-card">
+                            <h3>For Administrators</h3>
+                            <p>Manage users, assign students to lecturers and schools, oversee reports and evaluations, and handle system settings.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>For Lecturers</h3>
+                            <p>Monitor assigned students, provide feedback, upload evaluation reports, and grade student performance during teaching practice.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>For Students</h3>
+                            <p>View assigned schools and lecturers, upload reports and lesson plans, update progress, and receive feedback from supervisors.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="section bg-light">
+                <div class="container">
+                    <h2 class="section-title">Key Features</h2>
+                    <div class="card-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="icon">👥</i>
+                            </div>
+                            <h4>User Management</h4>
+                            <p>Easily manage users with different roles and permissions.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="icon">🏫</i>
+                            </div>
+                            <h4>School Assignments</h4>
+                            <p>Assign students to appropriate schools for their teaching practice.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="icon">📝</i>
+                            </div>
+                            <h4>Report Management</h4>
+                            <p>Submit, review, and track reports throughout the teaching practice.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="icon">⭐</i>
+                            </div>
+                            <h4>Evaluations</h4>
+                            <p>Comprehensive evaluation system with feedback mechanisms.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="section">
+                <div class="container">
+                    <h2 class="section-title">Contact Us</h2>
+                    <div class="contact-container">
+                        <form id="contactForm" class="contact-form custom-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <h4>Teaching Practice Management System</h4>
+                        <p>A comprehensive platform for managing and evaluating teaching practice experiences.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-contact">
+                        <h5>Contact Info</h5>
+                        <ul>
+                            <li>Email: info@tpms.edu</li>
+                            <li>Phone: +254 711 111 111</li>
+                            <li>Address: University Campus, Education Department</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Teaching Practice Management System. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any JavaScript functionality you need here
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Thank you for your message. We will get back to you soon!');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Evaluations - Teaching Practice System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+    background-color: #f4f6f8;
+}
+.sidebar {
+    height: 100vh;
+    background-color: #2c3e50;
+    color: white;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+.content-wrapper {
+    margin-left: 250px; /* Match sidebar width */
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        overflow-x: hidden;
+    }
+    .content-wrapper {
+        margin-left: 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+        <div class="text-center mb-4">
+            <h4 class="text-white">TPMS</h4>
+        </div>
+        <nav>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="dashboard.html">
+                        <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="students.html">
+                        <i class="bi bi-people me-2"></i> My Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active" href="evaluations.html">
+                        <i class="bi bi-clipboard-check me-2"></i> Evaluations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="reports.html">
+                        <i class="bi bi-file-text me-2"></i> Student Reports
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="row mb-4 align-items-center">
+                <div class="col">
+                    <h1 class="h3 mb-0">Student Evaluations</h1>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#createEvaluationModal">
+                        <i class="bi bi-plus-circle me-2"></i>Create Evaluation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input type="text" id="searchEvaluation" class="form-control" placeholder="Search evaluations...">
+                        <button class="btn btn-outline-secondary" type="button" title="Search">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="studentFilter" class="form-label">Filter by Student</label>
+                    <select id="studentFilter" class="form-select">
+                        <option value="">All Students</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="schoolFilter" class="form-label">Filter by School</label>
+                    <select id="schoolFilter" class="form-select">
+                        <option value="">All Schools</option>
+                        <!-- Dynamically populated -->
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="statusFilter" class="form-label">Filter by Status</label>
+                    <select id="statusFilter" class="form-select">
+                        <option value="">All Statuses</option>
+                        <option value="draft">Draft</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="reviewed">Reviewed</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Evaluations Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="evaluationsTable">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>School</th>
+                                    <th>Evaluation Date</th>
+                                    <th>Teaching Skills</th>
+                                    <th>Classroom Management</th>
+                                    <th>Overall Grade</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="evaluationsTableBody">
+                                <!-- Evaluations will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Evaluation Modal -->
+    <div class="modal fade" id="createEvaluationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Evaluation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="evaluationForm">
+                        <!-- Student Selection -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Select Student</label>
+                                <select class="form-select" id="studentSelect" required title="Select a student">
+                                    <option value="">Choose Student</option>
+                                    <!-- Students will be dynamically populated -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Evaluation Date</label>
+                                <input type="date" class="form-control" id="evaluationDate" required 
+                                       title="Select the evaluation date" placeholder="YYYY-MM-DD">
+                            </div>
+                        </div>
+
+                        <!-- Evaluation Criteria -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Teaching Skills (0-10)</label>
+                                <input type="number" class="form-control" id="teachingSkills" 
+                                       min="0" max="10" required placeholder="Rate teaching skills">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Classroom Management (0-10)</label>
+                                <input type="number" class="form-control" id="classroomManagement" 
+                                       min="0" max="10" required placeholder="Rate classroom management">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Lesson Preparation (0-10)</label>
+                                <input type="number" class="form-control" id="lessonPreparation" 
+                                       min="0" max="10" required placeholder="Rate lesson preparation">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Professionalism (0-10)</label>
+                                <input type="number" class="form-control" id="professionalism" 
+                                       min="0" max="10" required placeholder="Rate professionalism">
+                            </div>
+                        </div>
+
+                        <!-- Overall Assessment -->
+                        <div class="mb-3">
+                            <label class="form-label">Overall Comments</label>
+                            <textarea class="form-control" id="overallComments" rows="3" 
+                                      placeholder="Provide comprehensive feedback"></textarea>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Overall Grade</label>
+                                <select class="form-select" id="overallGrade" required title="Select the overall grade">
+                                    <option value="">Select Grade</option>
+                                    <option value="A+">A+ (Outstanding)</option>
+                                    <option value="A">A (Excellent)</option>
+                                    <option value="B+">B+ (Very Good)</option>
+                                    <option value="B">B (Good)</option>
+                                    <option value="C+">C+ (Satisfactory)</option>
+                                    <option value="C">C (Acceptable)</option>
+                                    <option value="D">D (Needs Improvement)</option>
+                                    <option value="F">F (Unsatisfactory)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Evaluation Status</label>
+                                <select class="form-select" id="evaluationStatus" required title="Select the evaluation status">
+                                    <option value="draft">Draft</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="reviewed">Reviewed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-custom" id="saveEvaluationBtn">Save Evaluation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Evaluation Details Modal -->
+    <div class="modal fade" id="evaluationDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Evaluation Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" title="Close"></button>
+                </div>
+                <div class="modal-body" id="evaluationDetailsContent">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-custom" id="editEvaluationBtn">Edit Evaluation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const evaluationsTableBody = document.getElementById('evaluationsTableBody');
+            const evaluationForm = document.getElementById('evaluationForm');
+            const saveEvaluationBtn = document.getElementById('saveEvaluationBtn');
+            const searchInput = document.getElementById('searchEvaluation');
+            const studentFilter = document.getElementById('studentFilter');
+            const schoolFilter = document.getElementById('schoolFilter');
+            const statusFilter = document.getElementById('statusFilter');
+
+            // Mock data (would be replaced by backend API)
+            let evaluations = [
+                {
+                    id: 1,
+                    student: {
+                        name: 'John Doe',
+                        school: 'Central High School'
+                    },
+                    evaluationDate: '2024-03-15',
+                    teachingSkills: 8,
+                    classroomManagement: 7,
+                    lessonPreparation: 9,
+                    professionalism: 8,
+                    overallComments: 'Strong performance with room for improvement in classroom management.',
+                    overallGrade: 'B+',
+                    status: 'submitted'
+                },
+                {
+                    id: 2,
+                    student: {
+                        name: 'Jane Smith',
+                        school: 'Westside Elementary'
+                    },
+                    evaluationDate: '2024-03-20',
+                    teachingSkills: 9,
+                    classroomManagement: 9,
+                    lessonPreparation: 8,
+                    professionalism: 9,
+                    overallComments: 'Exceptional teaching skills and professional approach.',
+                    overallGrade: 'A',
+                    status: 'reviewed'
+                }
+            ];
+
+            // Populate students dropdown
+            const students = [
+                { id: 1, name: 'John Doe', school: 'Central High School' },
+                { id: 2, name: 'Jane Smith', school: 'Westside Elementary' },
+                { id: 3, name: 'Mike Johnson', school: 'North Valley Middle School' }
+            ];
+
+            // Populate schools dropdown
+            const schools = [...new Set(students.map(s => s.school))];
+
+            // Populate dropdowns
+            function populateDropdowns() {
+                // Student Filter
+                studentFilter.innerHTML = '<option value="">All Students</option>';
+                students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.textContent = student.name;
+                    studentFilter.appendChild(option);
+                });
+
+                // Student Select in Evaluation Form
+                const studentSelect = document.getElementById('studentSelect');
+                studentSelect.innerHTML = '<option value="">Choose Student</option>';
+                students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.textContent = student.name;
+                    studentSelect.appendChild(option);
+                });
+
+                // School Filter
+                schoolFilter.innerHTML = '<option value="">All Schools</option>';
+                schools.forEach(school => {
+                    const option = document.createElement('option');
+                    option.value = school;
+                    option.textContent = school;
+                    schoolFilter.appendChild(option);
+                });
+            }
+
+            // Render evaluations table
+            function renderEvaluations(filteredEvaluations = evaluations) {
+                evaluationsTableBody.innerHTML = '';
+                filteredEvaluations.forEach(evaluation => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${evaluation.student.name}</td>
+                        <td>${evaluation.student.school}</td>
+                        <td>${evaluation.evaluationDate}</td>
+                        <td>
+                            <span class="badge ${getSkillBadgeClass(evaluation.teachingSkills)} rating-badge">
+                                ${evaluation.teachingSkills}/10
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge ${getSkillBadgeClass(evaluation.classroomManagement)} rating-badge">
+                                ${evaluation.classroomManagement}/10
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge ${getGradeBadgeClass(evaluation.overallGrade)} rating-badge">
+                                ${evaluation.overallGrade}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge ${getStatusBadgeClass(evaluation.status)} rating-badge">
+                                ${formatStatus(evaluation.status)}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info me-1" onclick="viewEvaluationDetails(${evaluation.id})">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning" onclick="editEvaluation(${evaluation.id})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </td>
+                    `;
+                    evaluationsTableBody.appendChild(row);
+                });
+            }
+
+            // Utility Functions
+            function getSkillBadgeClass(score) {
+                if (score >= 9) return 'bg-success';
+                if (score >= 7) return 'bg-info';
+                if (score >= 5) return 'bg-warning';
+                return 'bg-danger';
+            }
+
+            function getGradeBadgeClass(grade) {
+                const gradeClasses = {
+                    'A+': 'bg-success', 'A': 'bg-success', 'A-': 'bg-success',
+                    'B+': 'bg-info', 'B': 'bg-info', 'B-': 'bg-info',
+                    'C+': 'bg-warning', 'C': 'bg-warning', 'C-': 'bg-warning',
+                    'D': 'bg-danger', 'F': 'bg-danger'
+                };
+                return gradeClasses[grade] || 'bg-secondary';
+            }
+
+            function getStatusBadgeClass(status) {
+                const statusClasses = {
+                    'draft': 'bg-secondary',
+                    'submitted': 'bg-warning',
+                    'reviewed': 'bg-success'
+                };
+                return statusClasses[status] || 'bg-secondary';
+            }
+
+            function formatStatus(status) {
+                return status.charAt(0).toUpperCase() + status.slice(1);
+            }
+
+            // View Evaluation Details
+            window.viewEvaluationDetails = function(evaluationId) {
+                const evaluation = evaluations.find(e => e.id === evaluationId);
+                if (evaluation) {
+                    const detailsContent = document.getElementById('evaluationDetailsContent');
+                    detailsContent.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Student Information</h5>
+                                <p><strong>Name:</strong> ${evaluation.student.name}</p>
+                                <p><strong>School:</strong> ${evaluation.student.school}</p>
+                                <p><strong>Evaluation Date:</strong> ${evaluation.evaluationDate}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Performance Ratings</h5>
+                                <div class="mb-2">
+                                    <strong>Teaching Skills:</strong>
+                                    <span class="badge ${getSkillBadgeClass(evaluation.teachingSkills)} ms-2">
+                                        ${evaluation.teachingSkills}/10
+                                    </span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Classroom Management:</strong>
+                                    <span class="badge ${getSkillBadgeClass(evaluation.classroomManagement)} ms-2">
+                                        ${evaluation.classroomManagement}/10
+                                    </span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Lesson Preparation:</strong>
+                                    <span class="badge ${getSkillBadgeClass(evaluation.lessonPreparation)} ms-2">
+                                        ${evaluation.lessonPreparation}/10
+                                    </span>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Professionalism:</strong>
+                                    <span class="badge ${getSkillBadgeClass(evaluation.professionalism)} ms-2">
+                                        ${evaluation.professionalism}/10
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5>Overall Assessment</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Overall Grade:</strong> 
+                                    <span class="badge ${getGradeBadgeClass(evaluation.overallGrade)}">
+                                        ${evaluation.overallGrade}
+                                    </span>
+                                </p>
+                                <p><strong>Status:</strong> 
+                                    <span class="badge ${getStatusBadgeClass(evaluation.status)}">
+                                        ${formatStatus(evaluation.status)}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <h5>Comments</h5>
+                        <p>${evaluation.overallComments}</p>
+                    `;
+
+                    // Set up edit button
+                    const editEvaluationBtn = document.getElementById('editEvaluationBtn');
+                    editEvaluationBtn.onclick = () => editEvaluation(evaluationId);
+
+                    // Show modal
+                    const evaluationDetailsModal = new bootstrap.Modal(document.getElementById('evaluationDetailsModal'));
+                    evaluationDetailsModal.show();
+                }
+            };
+
+            // Edit Evaluation
+            window.editEvaluation = function(evaluationId) {
+                const evaluation = evaluations.find(e => e.id === evaluationId);
+                if (evaluation) {
+                    // Populate form with existing evaluation data
+                    document.getElementById('studentSelect').value = 
+                        students.find(s => s.name === evaluation.student.name)?.id || '';
+                    document.getElementById('evaluationDate').value = evaluation.evaluationDate;
+                    document.getElementById('teachingSkills').value = evaluation.teachingSkills;
+                    document.getElementById('classroomManagement').value = evaluation.classroomManagement;
+                    document.getElementById('lessonPreparation').value = evaluation.lessonPreparation;
+                    document.getElementById('professionalism').value = evaluation.professionalism;
+                    document.getElementById('overallComments').value = evaluation.overallComments;
+                    document.getElementById('overallGrade').value = evaluation.overallGrade;
+                    document.getElementById('evaluationStatus').value = evaluation.status;
+
+                    // Change modal title
+                    document.querySelector('#createEvaluationModal .modal-title').textContent = 'Edit Evaluation';
+
+                    // Store evaluation ID for update
+                    saveEvaluationBtn.dataset.evaluationId = evaluationId;
+
+                    // Show modal
+                    const createEvaluationModal = new bootstrap.Modal(document.getElementById('createEvaluationModal'));
+                    createEvaluationModal.show();
+                }
+            };
+
+            // Save Evaluation
+            saveEvaluationBtn.addEventListener('click', function() {
+                // Validate form
+                if (!evaluationForm.checkValidity()) {
+                    evaluationForm.classList.add('was-validated');
+                    return;
+                }
+
+                // Collect form data
+                const studentId = document.getElementById('studentSelect').value;
+                const selectedStudent = students.find(s => s.id == studentId);
+
+                const evaluationData = {
+                    student: {
+                        name: selectedStudent.name,
+                        school: selectedStudent.school
+                    },
+                    evaluationDate: document.getElementById('evaluationDate').value,
+                    teachingSkills: parseInt(document.getElementById('teachingSkills').value),
+                    classroomManagement: parseInt(document.getElementById('classroomManagement').value),
+                    lessonPreparation: parseInt(document.getElementById('lessonPreparation').value),
+                    professionalism: parseInt(document.getElementById('professionalism').value),
+                    overallComments: document.getElementById('overallComments').value,
+                    overallGrade: document.getElementById('overallGrade').value,
+                    status: document.getElementById('evaluationStatus').value
+                };
+
+                // Check if editing existing or creating new
+                const evaluationId = this.dataset.evaluationId;
+                if (evaluationId) {
+                    // Update existing evaluation
+                    const index = evaluations.findIndex(e => e.id === parseInt(evaluationId));
+                    if (index !== -1) {
+                        evaluations[index] = { 
+                            ...evaluations[index], 
+                            ...evaluationData,
+                            id: parseInt(evaluationId)
+                        };
+                    }
+                } else {
+                    // Add new evaluation
+                    evaluationData.id = Date.now(); // Temporary ID
+                    evaluations.push(evaluationData);
+                }
+
+                // Render updated evaluations
+                renderEvaluations();
+
+                // Close modal
+                const createEvaluationModal = bootstrap.Modal.getInstance(document.getElementById('createEvaluationModal'));
+                createEvaluationModal.hide();
+
+                // Reset form
+                evaluationForm.reset();
+                document.querySelector('#createEvaluationModal .modal-title').textContent = 'Create New Evaluation';
+                delete this.dataset.evaluationId;
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredEvaluations = evaluations.filter(evaluation => 
+                    evaluation.student.name.toLowerCase().includes(searchTerm)
+                );
+                renderEvaluations(filteredEvaluations);
+            });
+
+            // Student filter
+            studentFilter.addEventListener('change', function() {
+                const selectedStudentId = this.value;
+                const filteredEvaluations = selectedStudentId 
+                    ? evaluations.filter(evaluation => 
+                        evaluation.student.name === students.find(s => s.id == selectedStudentId)?.name
+                      )
+                    : evaluations;
+                renderEvaluations(filteredEvaluations);
+            });
+
+            // School filter
+            schoolFilter.addEventListener('change', function() {
+                const selectedSchool = this.value;
+                const filteredEvaluations = selectedSchool 
+                    ? evaluations.filter(evaluation => evaluation.student.school === selectedSchool)
+                    : evaluations;
+                renderEvaluations(filteredEvaluations);
+            });
+
+            // Status filter
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value;
+                const filteredEvaluations = selectedStatus 
+                    ? evaluations.filter(evaluation => evaluation.status === selectedStatus)
+                    : evaluations;
+                renderEvaluations(filteredEvaluations);
+            });
+
+            // Initial setup
+            populateDropdowns();
+            renderEvaluations();
+        });
+    </script>
+</body>
+</html>

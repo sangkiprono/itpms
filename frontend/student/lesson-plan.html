@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Plans - Teaching Practice Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="navbar-brand d-flex align-items-center justify-content-center">
+                <i class="bi bi-book me-2"></i>
+                <span>TPMS Student</span>
+            </div>
+            
+            <div class="sidebar-heading">
+                Main
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reports.html">
+                        <i class="bi bi-file-earmark-text"></i> My Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feedback.html">
+                        <i class="bi bi-clipboard-check"></i> Evaluations & Feedback
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="lesson-plans.html">
+                        <i class="bi bi-journal-text"></i> Lesson Plans
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-heading">
+                Settings
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">
+                        <i class="bi bi-person"></i> My Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+                <div class="container-fluid">
+                    <button class="btn btn-sm btn-outline-secondary d-lg-none me-3" type="button" id="sidebarToggle" title="Toggle Sidebar">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    
+                    <h4 class="mb-0">Lesson Plans</h4>
+                    
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle text-decoration-none text-dark d-flex align-items-center" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="me-2" id="userName">Student Name</span>
+                                <div class="user-dropdown">
+                                    <img src="../assets/images/avatar-placeholder.jpg" alt="User" id="userImage">
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutDropdownBtn"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Alert Container -->
+            <div id="alertContainer"></div>
+            
+            <!-- Content -->
+            <div class="container-fluid">
+                <!-- Quick Actions -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">My Lesson Plans</h5>
+                                <a href="new-lesson-plan.html" class="btn btn-primary">
+                                    <i class="bi bi-journal-plus me-1"></i> Create New Lesson Plan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search and Filter -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="subjectFilter" class="form-label">Filter by Subject</label>
+                                        <select class="form-select" id="subjectFilter">
+                                            <option value="">All Subjects</option>
+                                            <option value="Mathematics">Mathematics</option>
+                                            <option value="Science">Science</option>
+                                            <option value="English">English</option>
+                                            <option value="History">History</option>
+                                            <option value="Geography">Geography</option>
+                                            <option value="Art">Art</option>
+                                            <option value="Physical Education">Physical Education</option>
+                                            <option value="Music">Music</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="gradeFilter" class="form-label">Filter by Grade Level</label>
+                                        <select class="form-select" id="gradeFilter">
+                                            <option value="">All Grades</option>
+                                            <option value="Elementary">Elementary</option>
+                                            <option value="Middle School">Middle School</option>
+                                            <option value="High School">High School</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="searchLessonPlans" class="form-label">Search</label>
+                                        <input type="text" class="form-control" id="searchLessonPlans" placeholder="Search by title or content...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lesson Plans Grid -->
+                <div class="row" id="lessonPlansContainer">
+                    <!-- Lesson plans will be loaded dynamically -->
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading lesson plans...</p>
+                    </div>
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5 d-none">
+                    <div class="mb-3">
+                        <i class="bi bi-journal-x empty-state-icon"></i>
+                    </div>
+                    <h5>No Lesson Plans Yet</h5>
+                    <p class="text-muted">You haven't created any lesson plans yet.</p>
+                    <a href="new-lesson-plan.html" class="btn btn-primary mt-2">
+                        <i class="bi bi-journal-plus me-1"></i> Create Your First Lesson Plan
+                    </a>
+                </div>
+                
+                <!-- Lesson Plan Templates -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Lesson Plan Templates</h5>
+                                
+                                <div class="row">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Standard Lesson Plan</h5>
+                                                <p class="card-text">A basic lesson plan structure with objectives, materials, procedure, assessment, and reflection.</p>
+                                                <a href="new-lesson-plan.html?template=standard" class="btn btn-outline-primary">Use Template</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">5E Model Lesson</h5>
+                                                <p class="card-text">Structured around the 5E instructional model: Engage, Explore, Explain, Elaborate, and Evaluate.</p>
+                                                <a href="new-lesson-plan.html?template=5e" class="btn btn-outline-primary">Use Template</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Differentiated Instruction</h5>
+                                                <p class="card-text">Designed for addressing diverse learning needs with differentiated content, process, and products.</p>
+                                                <a href="new-lesson-plan.html?template=differentiated" class="btn btn-outline-primary">Use Template</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lesson Planning Resources -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-4">Lesson Planning Resources</h5>
+                                
+                                <div class="accordion" id="resourcesAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Effective Lesson Planning Strategies
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#resourcesAccordion">
+                                            <div class="accordion-body">
+                                                <ul>
+                                                    <li><strong>Backward Design</strong>: Start with your learning objectives and work backward to develop activities.</li>
+                                                    <li><strong>Hook Strategy</strong>: Begin with an engaging hook to capture student interest.</li>
+                                                    <li><strong>Chunking</strong>: Break longer lessons into smaller, manageable chunks.</li>
+                                                    <li><strong>Formative Assessment</strong>: Include ongoing checks for understanding.</li>
+                                                    <li><strong>Closure</strong>: End with a review that reinforces key concepts.</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Components of a Strong Lesson Plan
+                                            </button>
+                                        </h2>
+                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#resourcesAccordion">
+                                            <div class="accordion-body">
+                                                <ol>
+                                                    <li><strong>Clear Objectives</strong>: Specific, measurable learning goals</li>
+                                                    <li><strong>Standards Alignment</strong>: Connection to curriculum standards</li>
+                                                    <li><strong>Materials List</strong>: All resources needed for the lesson</li>
+                                                    <li><strong>Anticipatory Set</strong>: Opening activity to engage students</li>
+                                                    <li><strong>Direct Instruction</strong>: Teacher-led portion of the lesson</li>
+                                                    <li><strong>Guided Practice</strong>: Supported student practice</li>
+                                                    <li><strong>Independent Practice</strong>: Student application of learning</li>
+                                                    <li><strong>Assessment</strong>: Methods to evaluate understanding</li>
+                                                    <li><strong>Closure</strong>: Summarizing and reflecting on learning</li>
+                                                    <li><strong>Differentiation</strong>: Adaptations for diverse learners</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Common Lesson Planning Mistakes to Avoid
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#resourcesAccordion">
+                                            <div class="accordion-body">
+                                                <ul>
+                                                    <li><strong>Unclear Objectives</strong>: Vague or unmeasurable learning goals</li>
+                                                    <li><strong>Poor Time Management</strong>: Unrealistic timing for activities</li>
+                                                    <li><strong>Lack of Differentiation</strong>: Not accounting for diverse learning needs</li>
+                                                    <li><strong>No Assessment</strong>: Failing to check for understanding</li>
+                                                    <li><strong>Too Much Content</strong>: Trying to cover too much in one lesson</li>
+                                                    <li><strong>No Backup Plan</strong>: Not having alternatives if activities don't work</li>
+                                                    <li><strong>Ignoring Prior Knowledge</strong>: Not connecting to what students already know</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Lesson Plan Modal -->
+    <div class="modal fade" id="viewLessonPlanModal" tabindex="-1" aria-labelledby="viewLessonPlanModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewLessonPlanModalLabel">Lesson Plan Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="lessonPlanDetailsContent">
+                        <!-- Lesson plan details will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="#" class="btn btn-primary" id="editLessonPlanBtn">
+                        <i class="bi bi-pencil me-1"></i> Edit
+                    </a>
+                    <a href="#" class="btn btn-outline-primary" id="downloadLessonPlanBtn">
+                        <i class="bi bi-download me-1"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Lesson Plan Confirmation Modal -->
+    <div class="modal fade" id="deleteLessonPlanModal" tabindex="-1" aria-labelledby="deleteLessonPlanModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteLessonPlanModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this lesson plan? This action cannot be undone.</p>
+                    <p><strong>Lesson Plan:</strong> <span id="deleteLessonPlanTitle"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Lesson Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load lesson plans
+            loadLessonPlans();
+            
+            // Set up event listeners for filters
+            document.getElementById('subjectFilter').addEventListener('change', filterLessonPlans);
+            document.getElementById('gradeFilter').addEventListener('change', filterLessonPlans);
+            document.getElementById('searchLessonPlans').addEventListener('input', filterLessonPlans);
+            
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    document.querySelector('.sidebar').classList.toggle('d-none');
+                });
+            }
+            
+            // Ensure logout button in dropdown works
+            const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+            if (logoutDropdownBtn) {
+                logoutDropdownBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logout();
+                });
+            }
+        });
+        
+        /**
+         * Load lesson plans from API
+         * Note: For this implementation, we're treating lesson plans as a type of report
+         */
+        function loadLessonPlans() {
+            apiCall('/student/reports?report_type=lesson_plan')
+                .then(data => {
+                    const lessonPlans = data.reports || [];
+                    
+                    // Update UI based on lesson plans
+                    updateLessonPlansGrid(lessonPlans);
+                    
+                    // Show appropriate state
+                    if (lessonPlans.length === 0) {
+                        document.getElementById('lessonPlansContainer').classList.add('d-none');
+                        document.getElementById('emptyState').classList.remove('d-none');
+                    } else {
+                        document.getElementById('lessonPlansContainer').classList.remove('d-none');
+                        document.getElementById('emptyState').classList.add('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading lesson plans:', error);
+                    showAlert('Failed to load lesson plans. Please try again later.', 'danger');
+                    
+                    // Show error state
+                    document.getElementById('lessonPlansContainer').innerHTML = `
+                        <div class="col-12 text-center">
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+                                Error loading lesson plans. Please try again.
+                            </div>
+                        </div>
+                    `;
+                });
+        }
+        
+        /**
+         * Update lesson plans grid with data
+         */
+        function updateLessonPlansGrid(lessonPlans) {
+            const container = document.getElementById('lessonPlansContainer');
+            
+            if (!lessonPlans || lessonPlans.length === 0) {
+                container.innerHTML = ''; // Empty container, empty state will be shown separately
+                return;
+            }
+            
+            // Generate subjects list from lesson plans metadata
+            // In a real app, this would be parsed from the lesson plan content or stored as separate fields
+            const subjects = generateRandomSubjects(lessonPlans.length);
+            const gradeLevels = generateRandomGradeLevels(lessonPlans.length);
+            
+            // Apply filters
+            const subjectFilter = document.getElementById('subjectFilter').value;
+            const gradeFilter = document.getElementById('gradeFilter').value;
+            const searchQuery = document.getElementById('searchLessonPlans').value.toLowerCase();
+            
+            let filteredPlans = [...lessonPlans];
+            
+            // Apply filters if selected
+            if (subjectFilter) {
+                filteredPlans = filteredPlans.filter((_, index) => subjects[index] === subjectFilter);
+            }
+            
+            if (gradeFilter) {
+                filteredPlans = filteredPlans.filter((_, index) => gradeLevels[index] === gradeFilter);
+            }
+            
+            if (searchQuery) {
+                filteredPlans = filteredPlans.filter(plan => 
+                    plan.title.toLowerCase().includes(searchQuery) || 
+                    (plan.content && plan.content.toLowerCase().includes(searchQuery))
+                );
+            }
+            
+            if (filteredPlans.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-4">
+                        <p>No lesson plans match your filters.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            filteredPlans.forEach((plan, index) => {
+                // Use the original index to get the subject and grade level
+                const originalIndex = lessonPlans.findIndex(p => p.id === plan.id);
+                const subject = subjects[originalIndex];
+                const gradeLevel = gradeLevels[originalIndex];
+                
+                html += `
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header bg-light">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">${subject}</h6>
+                                    <span class="badge bg-secondary">${gradeLevel}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${plan.title}</h5>
+                                <p class="card-text text-muted small">
+                                    <i class="bi bi-calendar3 me-1"></i> Created: ${formatDate(plan.submission_date)}
+                                </p>
+                                <p class="card-text">${truncateText(plan.content, 100)}</p>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-sm btn-outline-primary view-plan-btn" data-plan-id="${plan.id}" data-subject="${subject}" data-grade="${gradeLevel}">
+                                        <i class="bi bi-eye me-1"></i> View
+                                    </button>
+                                    <div>
+                                        <a href="edit-lesson-plan.html?id=${plan.id}" class="btn btn-sm btn-outline-secondary me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-outline-danger delete-plan-btn" data-plan-id="${plan.id}" data-plan-title="${plan.title}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Attach event listeners
+            document.querySelectorAll('.view-plan-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const planId = this.getAttribute('data-plan-id');
+                    const subject = this.getAttribute('data-subject');
+                    const grade = this.getAttribute('data-grade');
+                    viewLessonPlan(planId, subject, grade);
+                });
+            });
+            
+            document.querySelectorAll('.delete-plan-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const planId = this.getAttribute('data-plan-id');
+                    const planTitle = this.getAttribute('data-plan-title');
+                    
+                    // Set up delete modal
+                    document.getElementById('deleteLessonPlanTitle').textContent = planTitle;
+                    document.getElementById('confirmDeleteBtn').setAttribute('data-plan-id', planId);
+                    
+                    // Show modal
+                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteLessonPlanModal'));
+                    deleteModal.show();
+                });
+            });
+            
+            // Set up confirm delete button
+            document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+                const planId = this.getAttribute('data-plan-id');
+                deleteLessonPlan(planId);
+            });
+        }
+        
+        /**
+         * View lesson plan details
+         */
+        function viewLessonPlan(planId, subject, gradeLevel) {
+            apiCall(`/student/reports/${planId}`)
+                .then(data => {
+                    const plan = data.report;
+                    
+                    // Update modal title
+                    document.getElementById('viewLessonPlanModalLabel').textContent = plan.title;
+                    
+                    // Set edit and download buttons href
+                    document.getElementById('editLessonPlanBtn').href = `edit-lesson-plan.html?id=${plan.id}`;
+                    
+                    if (plan.file_path) {
+                        document.getElementById('downloadLessonPlanBtn').classList.remove('d-none');
+                        document.getElementById('downloadLessonPlanBtn').href = plan.file_path;
+                    } else {
+                        document.getElementById('downloadLessonPlanBtn').classList.add('d-none');
+                    }
+                    
+                    // Update modal content
+                    const contentDiv = document.getElementById('lessonPlanDetailsContent');
+                    contentDiv.innerHTML = `
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="badge bg-primary">${subject}</span>
+                                    <span class="badge bg-secondary ms-1">${gradeLevel}</span>
+                                </div>
+                                <div>
+                                    <span class="text-muted small">
+                                        <i class="bi bi-calendar3 me-1"></i> ${formatDate(plan.submission_date)}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <h6>Lesson Objectives</h6>
+                                <ul>
+                                    <li>Students will be able to understand key concepts.</li>
+                                    <li>Students will demonstrate application of skills.</li>
+                                    <li>Students will analyze and evaluate materials.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <h6>Materials Needed</h6>
+                                <ul>
+                                    <li>Textbooks</li>
+                                    <li>Worksheets</li>
+                                    <li>Projector</li>
+                                    <li>Activity supplies</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <h6>Assessment Methods</h6>
+                                <ul>
+                                    <li>Formative questioning</li>
+                                    <li>Group activity observation</li>
+                                    <li>Exit ticket</li>
+                                    <li>Homework assignment</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6>Lesson Content</h6>
+                            <div class="p-3 border rounded bg-light">
+                                ${plan.content}
+                            </div>
+                        </div>
+                        
+                        ${plan.file_path ? `
+                            <div class="mb-4">
+                                <h6>Attached Resources</h6>
+                                <p class="mb-2">
+                                    <i class="bi bi-file-earmark me-2"></i> ${plan.file_path.split('/').pop()}
+                                </p>
+                                <a href="${plan.file_path}" class="btn btn-sm btn-outline-primary" download>
+                                    <i class="bi bi-download me-1"></i> Download File
+                                </a>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="mb-3">
+                            <h6>Reflections & Notes</h6>
+                            <div class="p-3 border rounded bg-light">
+                                <p class="text-muted fst-italic">Add your reflections after teaching this lesson...</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Show modal
+                    const viewModal = new bootstrap.Modal(document.getElementById('viewLessonPlanModal'));
+                    viewModal.show();
+                })
+                .catch(error => {
+                    console.error('Error loading lesson plan:', error);
+                    showAlert('Failed to load lesson plan details. Please try again later.', 'danger');
+                });
+        }
+        
+        /**
+         * Delete a lesson plan
+         */
+        function deleteLessonPlan(planId) {
+            apiCall(`/student/reports/${planId}`, 'DELETE')
+                .then(response => {
+                    // Hide modal
+                    bootstrap.Modal.getInstance(document.getElementById('deleteLessonPlanModal')).hide();
+                    
+                    // Show success message
+                    showAlert('Lesson plan deleted successfully.', 'success');
+                    
+                    // Reload lesson plans
+                    setTimeout(() => {
+                        loadLessonPlans();
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.error('Error deleting lesson plan:', error);
+                    
+                    // Hide modal
+                    bootstrap.Modal.getInstance(document.getElementById('deleteLessonPlanModal')).hide();
+                    
+                    showAlert('Failed to delete lesson plan. Please try again later.', 'danger');
+                });
+        }
+        
+        /**
+         * Filter lesson plans based on selected filters
+         */
+        function filterLessonPlans() {
+            // Since we're filtering client-side in this demo, just reload the lesson plans
+            // which will apply the current filter values
+            loadLessonPlans();
+        }
+        
+        /**
+         * Generate random subjects for demo purposes
+         * In a real application, this would come from the API
+         */
+        function generateRandomSubjects(count) {
+            const subjects = ['Mathematics', 'Science', 'English', 'History', 'Geography', 'Art', 'Physical Education', 'Music'];
+            return Array(count).fill().map(() => subjects[Math.floor(Math.random() * subjects.length)]);
+        }
+        
+        /**
+         * Generate random grade levels for demo purposes
+         * In a real application, this would come from the API
+         */
+        function generateRandomGradeLevels(count) {
+            const gradeLevels = ['Elementary', 'Middle School', 'High School'];
+            return Array(count).fill().map(() => gradeLevels[Math.floor(Math.random() * gradeLevels.length)]);
+        }
+        
+        /**
+         * Truncate text to a certain length with ellipsis
+         */
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+    </script>
+</body>
+</html>

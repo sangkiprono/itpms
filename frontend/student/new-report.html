@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Report - Teaching Practice Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="navbar-brand d-flex align-items-center justify-content-center">
+                <i class="bi bi-book me-2"></i>
+                <span>TPMS Student</span>
+            </div>
+            
+            <div class="sidebar-heading">
+                Main
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="reports.html">
+                        <i class="bi bi-file-earmark-text"></i> My Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feedback.html">
+                        <i class="bi bi-clipboard-check"></i> Evaluations & Feedback
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="lesson-plans.html">
+                        <i class="bi bi-journal-text"></i> Lesson Plans
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-heading">
+                Settings
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">
+                        <i class="bi bi-person"></i> My Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutBtn">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-light top-navbar">
+                <div class="container-fluid">
+                    <button class="btn btn-sm btn-outline-secondary d-lg-none me-3" type="button" id="sidebarToggle" title="Toggle Sidebar">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    
+                    <h4 class="mb-0">Create New Report</h4>
+                    
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle text-decoration-none text-dark d-flex align-items-center" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="me-2" id="userName">Student Name</span>
+                                <div class="user-dropdown">
+                                    <img src="../assets/images/avatar-placeholder.jpg" alt="User" id="userImage">
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person me-2"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutDropdownBtn"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Alert Container -->
+            <div id="alertContainer"></div>
+            
+            <!-- Content -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="card-title mb-0">New Report</h5>
+                                    <a href="reports.html" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left me-1"></i> Back to Reports
+                                    </a>
+                                </div>
+                                
+                                <form id="reportForm" class="needs-validation" novalidate enctype="multipart/form-data">
+                                    <div class="mb-3">
+                                        <label for="reportTitle" class="form-label">Report Title <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="reportTitle" name="title" required>
+                                        <div class="invalid-feedback">
+                                            Please provide a title for your report.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="reportType" class="form-label">Report Type <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="reportType" name="report_type" required>
+                                            <option value="" selected disabled>Select report type</option>
+                                            <option value="daily">Daily Report</option>
+                                            <option value="weekly">Weekly Report</option>
+                                            <option value="reflection">Reflection</option>
+                                            <option value="final">Final Report</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select a report type.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="reportContent" class="form-label">Report Content <span class="text-danger">*</span></label>
+                                        <textarea class="form-control" id="reportContent" name="content" rows="10" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Please provide content for your report.
+                                        </div>
+                                        <div class="form-text">
+                                            Write about your teaching experiences, challenges faced, strategies used, and lessons learned.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="reportFile" class="form-label">Attach File (Optional)</label>
+                                        <input type="file" class="form-control" id="reportFile" name="file">
+                                        <div class="form-text">
+                                            Accepted file types: PDF, DOC, DOCX, TXT, JPG, JPEG, PNG (Max size: 5MB)
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-outline-secondary me-2" id="cancelBtn">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Submit Report</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Report Guidelines -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Report Guidelines</h5>
+                                
+                                <div class="accordion" id="reportGuidelinesAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="dailyReportHeading">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#dailyReportCollapse" aria-expanded="false" aria-controls="dailyReportCollapse">
+                                                Daily Report Guidelines
+                                            </button>
+                                        </h2>
+                                        <div id="dailyReportCollapse" class="accordion-collapse collapse" aria-labelledby="dailyReportHeading" data-bs-parent="#reportGuidelinesAccordion">
+                                            <div class="accordion-body">
+                                                <p>Your daily report should include:</p>
+                                                <ul>
+                                                    <li>Brief summary of the day's activities</li>
+                                                    <li>Classes taught and topics covered</li>
+                                                    <li>Teaching methods used</li>
+                                                    <li>Student engagement and behavior</li>
+                                                    <li>Challenges encountered and how you addressed them</li>
+                                                    <li>Key accomplishments or breakthroughs</li>
+                                                    <li>Questions or concerns for your supervisor</li>
+                                                </ul>
+                                                <p>Aim for 300-500 words in your daily report.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="weeklyReportHeading">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#weeklyReportCollapse" aria-expanded="false" aria-controls="weeklyReportCollapse">
+                                                Weekly Report Guidelines
+                                            </button>
+                                        </h2>
+                                        <div id="weeklyReportCollapse" class="accordion-collapse collapse" aria-labelledby="weeklyReportHeading" data-bs-parent="#reportGuidelinesAccordion">
+                                            <div class="accordion-body">
+                                                <p>Your weekly report should include:</p>
+                                                <ul>
+                                                    <li>Overview of the week's teaching activities</li>
+                                                    <li>Summary of different classes and subjects taught</li>
+                                                    <li>Progress on your teaching goals</li>
+                                                    <li>Successful teaching strategies implemented</li>
+                                                    <li>Challenges faced during the week and solutions attempted</li>
+                                                    <li>Student progress and assessment results</li>
+                                                    <li>Reflections on your teaching practice</li>
+                                                    <li>Goals for the coming week</li>
+                                                </ul>
+                                                <p>Weekly reports should be 500-800 words and submitted by Friday each week.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="reflectionHeading">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#reflectionCollapse" aria-expanded="false" aria-controls="reflectionCollapse">
+                                                Reflection Guidelines
+                                            </button>
+                                        </h2>
+                                        <div id="reflectionCollapse" class="accordion-collapse collapse" aria-labelledby="reflectionHeading" data-bs-parent="#reportGuidelinesAccordion">
+                                            <div class="accordion-body">
+                                                <p>Your reflection should focus on:</p>
+                                                <ul>
+                                                    <li>Critical analysis of a specific teaching experience</li>
+                                                    <li>Connection between theory and practice</li>
+                                                    <li>Personal insights about your teaching philosophy</li>
+                                                    <li>Growth areas you've identified</li>
+                                                    <li>Specific ways you plan to improve</li>
+                                                    <li>How your teaching practice has evolved</li>
+                                                </ul>
+                                                <p>Reflections should be 600-1000 words and demonstrate critical thinking about your teaching practice.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="finalReportHeading">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#finalReportCollapse" aria-expanded="false" aria-controls="finalReportCollapse">
+                                                Final Report Guidelines
+                                            </button>
+                                        </h2>
+                                        <div id="finalReportCollapse" class="accordion-collapse collapse" aria-labelledby="finalReportHeading" data-bs-parent="#reportGuidelinesAccordion">
+                                            <div class="accordion-body">
+                                                <p>Your final report should include:</p>
+                                                <ul>
+                                                    <li>Summary of your entire teaching practice experience</li>
+                                                    <li>Key learnings and insights gained</li>
+                                                    <li>Analysis of your teaching strengths and areas for improvement</li>
+                                                    <li>Discussion of how you applied teaching theories</li>
+                                                    <li>Evidence of student learning and progress</li>
+                                                    <li>Professional growth throughout the teaching practice</li>
+                                                    <li>Goals for your future teaching career</li>
+                                                </ul>
+                                                <p>The final report should be 1500-2000 words and submitted at the conclusion of your teaching practice.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/student.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form validation
+            const form = document.getElementById('reportForm');
+            
+            // Form submission
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                if (!form.checkValidity()) {
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                    return;
+                }
+                
+                // Prepare form data
+                const formData = new FormData(form);
+                
+                // Submit report (file upload needs special handling)
+                submitReport(formData);
+            });
+            
+            // Cancel button
+            document.getElementById('cancelBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
+                    window.location.href = 'reports.html';
+                }
+            });
+            
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    document.querySelector('.sidebar').classList.toggle('d-none');
+                });
+            }
+            
+            // Ensure logout button in dropdown works
+            const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+            if (logoutDropdownBtn) {
+                logoutDropdownBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    logout();
+                });
+            }
+        });
+        
+        /**
+         * Submit report with file upload
+         */
+        function submitReport(formData) {
+            // Show loading indication
+            showAlert('Submitting your report...', 'info');
+            
+            // Get the token
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showAlert('You are not logged in. Please log in and try again.', 'danger');
+                return;
+            }
+            
+            // Make API call
+            fetch('/api/student/reports', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error || 'Failed to submit report');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                showAlert('Report submitted successfully!', 'success');
+                
+                // Redirect to reports page after a short delay
+                setTimeout(() => {
+                    window.location.href = 'reports.html';
+                }, 1500);
+            })
+            .catch(error => {
+                console.error('Error submitting report:', error);
+                showAlert(`Failed to submit report: ${error.message}`, 'danger');
+            });
+        }
+    </script>
+</body>
+</html>
