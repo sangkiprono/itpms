@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -115,8 +118,8 @@
             <!-- Dashboard Content -->
             <div class="container-fluid">
                 <!-- Stats Cards -->
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
                         <div class="dashboard-card bg-gradient-primary">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -124,13 +127,13 @@
                                     <div class="card-value text-white" id="totalUsersCount">0</div>
                                 </div>
                                 <div class="card-icon">
-                                    <i class="bi bi-people-fill text-white-50"></i>
+                                    <i class="bi bi-people-fill"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-3">
+                    <div class="col-md-6 col-lg-3">
                         <div class="dashboard-card bg-gradient-success">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -138,13 +141,13 @@
                                     <div class="card-value text-white" id="totalSchoolsCount">0</div>
                                 </div>
                                 <div class="card-icon">
-                                    <i class="bi bi-building text-white-50"></i>
+                                    <i class="bi bi-building"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-3">
+                    <div class="col-md-6 col-lg-3">
                         <div class="dashboard-card bg-gradient-info">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -152,13 +155,13 @@
                                     <div class="card-value text-white" id="activeSessionsCount">0</div>
                                 </div>
                                 <div class="card-icon">
-                                    <i class="bi bi-calendar-check text-white-50"></i>
+                                    <i class="bi bi-calendar-check"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="col-md-3">
+                    <div class="col-md-6 col-lg-3">
                         <div class="dashboard-card bg-gradient-warning">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -166,7 +169,7 @@
                                     <div class="card-value text-white" id="newReportsCount">0</div>
                                 </div>
                                 <div class="card-icon">
-                                    <i class="bi bi-file-earmark-text text-white-50"></i>
+                                    <i class="bi bi-file-earmark-text"></i>
                                 </div>
                             </div>
                         </div>
@@ -174,46 +177,82 @@
                 </div>
                 
                 <!-- User Stats -->
-                <div class="row mt-4">
+                <div class="row mt-4 g-3">
                     <div class="col-md-6">
                         <div class="dashboard-card">
-                            <h5 class="mb-3">Users by Role</h5>
-                            <canvas id="userRolesChart" height="200"></canvas>
+                            <h5 class="mb-4">
+                                <i class="bi bi-pie-chart-fill text-primary me-2"></i>
+                                Users by Role
+                            </h5>
+                            <div class="chart-container">
+                                <canvas id="userRolesChart"></canvas>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="dashboard-card">
-                            <h5 class="mb-3">Recent Activities</h5>
-                            <div class="list-group">
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">New lecturer assigned</h6>
-                                        <small>3 hours ago</small>
+                            <h5 class="mb-4">
+                                <i class="bi bi-clock-history text-primary me-2"></i>
+                                Recent Activities
+                            </h5>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between align-items-start">
+                                        <div class="d-flex align-items-start">
+                                            <div class="activity-icon bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3">
+                                                <i class="bi bi-person-plus-fill"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">New lecturer assigned</h6>
+                                                <p class="mb-1">Dr. Smith was assigned to 5 new students.</p>
+                                            </div>
+                                        </div>
+                                        <small class="text-nowrap">3 hours ago</small>
                                     </div>
-                                    <p class="mb-1">Dr. Smith was assigned to 5 new students.</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">New school added</h6>
-                                        <small>6 hours ago</small>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between align-items-start">
+                                        <div class="d-flex align-items-start">
+                                            <div class="activity-icon bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
+                                                <i class="bi bi-building-add"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">New school added</h6>
+                                                <p class="mb-1">Jefferson High School was added to the system.</p>
+                                            </div>
+                                        </div>
+                                        <small class="text-nowrap">6 hours ago</small>
                                     </div>
-                                    <p class="mb-1">Jefferson High School was added to the system.</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">New teaching practice session</h6>
-                                        <small>Yesterday</small>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between align-items-start">
+                                        <div class="d-flex align-items-start">
+                                            <div class="activity-icon bg-info bg-opacity-10 text-info rounded-circle p-2 me-3">
+                                                <i class="bi bi-calendar-event"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">New teaching practice session</h6>
+                                                <p class="mb-1">Spring 2025 teaching practice session was created.</p>
+                                            </div>
+                                        </div>
+                                        <small class="text-nowrap">Yesterday</small>
                                     </div>
-                                    <p class="mb-1">Spring 2025 teaching practice session was created.</p>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">10 new students registered</h6>
-                                        <small>2 days ago</small>
+                                </div>
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between align-items-start">
+                                        <div class="d-flex align-items-start">
+                                            <div class="activity-icon bg-warning bg-opacity-10 text-warning rounded-circle p-2 me-3">
+                                                <i class="bi bi-people"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">10 new students registered</h6>
+                                                <p class="mb-1">10 new student accounts were created.</p>
+                                            </div>
+                                        </div>
+                                        <small class="text-nowrap">2 days ago</small>
                                     </div>
-                                    <p class="mb-1">10 new student accounts were created.</p>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -270,11 +309,34 @@
             
             // Toggle sidebar on mobile
             const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', function() {
-                    document.querySelector('.sidebar').classList.toggle('d-none');
+                    sidebar.classList.toggle('show');
+                    sidebarOverlay.classList.toggle('show');
                 });
             }
+            
+            // Close sidebar when clicking overlay
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                });
+            }
+            
+            // Close sidebar when clicking a link on mobile
+            const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 991) {
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                    }
+                });
+            });
             
             // Ensure logout button in dropdown works
             const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');

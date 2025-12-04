@@ -7,40 +7,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <div class="landing-container">
-        <header class="header">
-            <nav class="basic-navbar">
-                <a href="#" class="basic-navbar-brand">Teaching Practice Management System</a>
-                <ul class="basic-navbar-nav">
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+<body class="landing-container">
+    <header class="header">
+        <nav class="basic-navbar">
+            <a href="#home" class="basic-navbar-brand">TPMS</a>
+            <ul class="basic-navbar-nav">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <main>
-            <section class="hero">
-                <div class="container">
-                    <div class="hero-content">
-                        <div class="hero-text">
-                            <h1>Welcome to Teaching Practice Management System</h1>
-                            <p class="lead">A comprehensive platform for managing and evaluating teaching practice experiences.</p>
-                            <div class="hero-cta">
-                                <a href="login.html" class="btn-primary">Get Started</a>
-                            </div>
-                        </div>
-                        <div class="hero-image">
-                            <img src="C:\Users\HP\Desktop\416 project\itpms\frontend\assets\images\herro-image.jpg" alt="Teaching Practice">
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Welcome to Teaching Practice Management System</h1>
+                        <p class="lead">Streamline your teaching practice experience with our comprehensive management platform designed for administrators, lecturers, and students.</p>
+                        <div class="hero-cta">
+                            <a href="login.html" class="btn-primary">Get Started</a>
                         </div>
                     </div>
+                    <div class="hero-image">
+                        <div style="width: 100%; height: 400px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 6rem;">📚</div>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="about" class="section">
-                <div class="container">
-                    <h2 class="section-title">About the System</h2>
+        <section id="about" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">About the System</h2>
                     <div class="card-grid">
                         <div class="feature-card">
                             <h3>For Administrators</h3>
@@ -58,9 +59,9 @@
                 </div>
             </section>
 
-            <section id="features" class="section bg-light">
-                <div class="container">
-                    <h2 class="section-title">Key Features</h2>
+        <section id="features" class="section">
+            <div class="container">
+                <h2 class="section-title">Key Features</h2>
                     <div class="card-grid">
                         <div class="feature-item">
                             <div class="feature-icon">
@@ -94,9 +95,9 @@
                 </div>
             </section>
 
-            <section id="contact" class="section">
-                <div class="container">
-                    <h2 class="section-title">Contact Us</h2>
+        <section id="contact" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
                     <div class="contact-container">
                         <form id="contactForm" class="contact-form custom-form">
                             <div class="form-group">
@@ -114,16 +115,16 @@
                                 <textarea id="message" rows="5" required></textarea>
                             </div>
                             
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button type="submit" class="btn-primary" style="width: 100%; border: none; cursor: pointer;">Send Message</button>
                         </form>
                     </div>
                 </div>
             </section>
         </main>
 
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
                     <div class="footer-info">
                         <h4>Teaching Practice Management System</h4>
                         <p>A comprehensive platform for managing and evaluating teaching practice experiences.</p>
@@ -151,7 +152,6 @@
                 </div>
             </div>
         </footer>
-    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

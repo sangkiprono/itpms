@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -97,7 +100,7 @@
             <!-- Dashboard Content -->
             <div class="container-fluid">
                 <!-- Stats Cards -->
-                <div class="row">
+                <div class="row g-3">
                     <div class="col-md-4">
                         <div class="dashboard-card bg-gradient-primary">
                             <div class="d-flex justify-content-between align-items-center">
@@ -531,6 +534,45 @@
             if (['B+', 'B', 'B-'].includes(grade)) return 'info';
             if (['C+', 'C', 'C-'].includes(grade)) return 'warning';
             return 'danger';
+        }
+        
+        // Sidebar toggle for mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '../login.html';
+            });
+        }
+        
+        if (logoutDropdownBtn) {
+            logoutDropdownBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '../login.html';
+            });
         }
     </script>
 </body>

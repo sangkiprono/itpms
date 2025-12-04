@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar">
@@ -38,7 +41,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="lesson-plans.html">
+                    <a class="nav-link" href="lesson-plan.html">
                         <i class="bi bi-journal-text"></i> Lesson Plans
                     </a>
                 </li>
@@ -358,6 +361,45 @@
             .catch(error => {
                 console.error('Error submitting report:', error);
                 showAlert(`Failed to submit report: ${error.message}`, 'danger');
+            });
+        }
+        
+        // Sidebar toggle for mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+        }
+        
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        const logoutDropdownBtn = document.getElementById('logoutDropdownBtn');
+        
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '../login.html';
+            });
+        }
+        
+        if (logoutDropdownBtn) {
+            logoutDropdownBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = '../login.html';
             });
         }
     </script>
